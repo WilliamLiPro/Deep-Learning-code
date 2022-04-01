@@ -101,9 +101,8 @@ def mnist_mlp_test():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     mnist_path = 'E:/Dataset/Object_Recognition/'
-    # mnist_path = '/home/lwp/ImgData/Dataset/image_recognition/'
     epoch = 50
-    batch_size = 512
+    batch_size = 256
 
     # MLP
     net = TinyMlp([784, 1024, 512, 256, 10]).to(device)
@@ -124,20 +123,19 @@ def mnist_mlp_test():
 def mnist_cnn_test():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # mnist_path = 'E:/Dataset/Object_Recognition/'
-    mnist_path = '/home/lwp/ImgData/Dataset/image_recognition/'
-    epoch = 50
-    batch_size = 512
+    mnist_path = 'E:/Dataset/Object_Recognition/'
+    epoch = 2
+    batch_size = 256
 
     # CNN
-    net = TinyCnn([32, 64, 128, 128], 10).to(device)
+    net = TinyCnn([1, 32, 64, 128], 10).to(device)
     opt = SGD(net.parameters(), lr=0.001, momentum=0.9, nesterov=True)
     criterion = nn.CrossEntropyLoss(reduce=False)
     summaries = mnist_trainer(net, opt, criterion, mnist_path, './result',
                               epoch=epoch, batch_size=batch_size,
                               device=device, multi_gpu=False)
 
-    net = TinyCnn([32, 64, 128, 128], 10).to(device)
+    net = TinyCnn([1, 32, 64, 128], 10).to(device)
     opt = Adam(net.parameters(), lr=0.001)
     criterion = nn.CrossEntropyLoss(reduce=False)
     summaries = mnist_trainer(net, opt, criterion, mnist_path, './result',
@@ -146,5 +144,5 @@ def mnist_cnn_test():
 
 
 if __name__ == '__main__':
-    mnist_mlp_test()
+    # mnist_mlp_test()
     mnist_cnn_test()
